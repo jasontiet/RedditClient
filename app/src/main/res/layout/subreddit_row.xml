@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tvSubreddit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="12dp"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:text="@string/reddit_post_title_text"/>
+
+    <TextView
+        android:id="@+id/tvNamePrefix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSubreddit"
+        android:layout_alignLeft="@id/tvSubreddit"
+        android:text="@string/reddit_post_name_prefix_text"
+        />
+
+
+    <TextView
+        android:id="@+id/tvSubscribers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvNamePrefix"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/tvNamePrefix"
+        android:layout_toRightOf="@+id/tvNamePrefix"
+        android:text="@string/reddit_post_num_subs_text"
+        android:layout_alignBaseline="@id/tvNamePrefix"
+        android:textSize="12sp" />
+
+</RelativeLayout>

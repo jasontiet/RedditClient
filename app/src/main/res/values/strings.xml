@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Reddorites Lite</string>
+    <string name="search_hint">Search subreddits</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="comments_header"><u>Comments</u></string>
+    <string name="add_text">Add</string>
+    <string name="upvotes_hint">1000</string>
+    <string name="reddit_post_title_text">Here is the title of the post</string>
+    <string name="reddit_post_domain_text">(www.example.com)</string>
+    <string name="reddit_post_num_comments_text">123 comments</string>
+    <string name="reddit_post_subreddit_text">AskReddit</string>
+    <string name="reddit_post_num_subs_text">123 Subscribers</string>
+    <string name="reddit_post_author_text">Author</string>
+    <string name="reddit_post_name_prefix_text">/r/askreddit</string>
+    <string name="reddit_post_description_text">Description</string>
+
+</resources>
