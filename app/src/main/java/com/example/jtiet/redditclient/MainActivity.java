@@ -22,12 +22,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    RedditClient client;
-    SubredditAdapter subredditAdapter;
-    EditText etSearchSubreddit;
-    ArrayList<RedditPost> subredditList;
-    ArrayList<String> subredditNames;
-    SharedPreferences sharedPreferences;
+    private RedditClient client;
+    private SubredditAdapter subredditAdapter;
+    private EditText etSearchSubreddit;
+    private ArrayList<RedditPost> subredditList;
+    private ArrayList<String> subredditNames;
+    private SharedPreferences sharedPreferences;
 
     final String SUBREDDIT_LIST = "subreddit_list";
     final String SHARED_PREFERENCES = "shared_preferences";
