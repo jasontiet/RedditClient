@@ -51,7 +51,7 @@ public class PostsActivity extends AppCompatActivity {
                 intent.putExtra("subreddit", subreddit);
                 intent.putExtra("title", redditPosts.get(position).getTitle());
                 intent.putExtra("author", redditPosts.get(position).getAuthor());
-                intent.putExtra("description", redditPosts.get(position).getSelfText());
+                intent.putExtra("description", redditPosts.get(position).getDescription());
                 intent.putExtra("url", redditPosts.get(position).getUrl());
                 startActivity(intent);
 

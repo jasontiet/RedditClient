@@ -1,7 +1,6 @@
 package com.example.jtiet.redditclient;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,29 +9,23 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private RedditClient client;
     private SubredditAdapter subredditAdapter;
     private EditText etSearchSubreddit;
-    private ArrayList<RedditPost> subredditList;
+    private List<RedditPost> subredditList;
     private ArrayList<String> subredditNames;
-    private SharedPreferences sharedPreferences;
-
-    final String SUBREDDIT_LIST = "subreddit_list";
-    final String SHARED_PREFERENCES = "shared_preferences";
-
-    boolean isBlocked;
+    private RedditDatabase subredditDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +39,22 @@ public class MainActivity extends AppCompatActivity {
         etSearchSubreddit = (EditText) findViewById(R.id.etSearchSubreddit);
         Button searchSubreddit = (Button) findViewById(R.id.btnSearchSubreddit);
 
+        subredditDatabase = RedditDatabase.getDatabase(getApplicationContext());
+
         subredditList = new ArrayList<RedditPost>();
         subredditNames = new ArrayList<String>();
 
-        subredditAdapter = new SubredditAdapter(this, subredditList);
+        subredditList = subredditDatabase.redditPostDao().getSubreddits();
+
+        for (int i = 0; i < subredditList.size(); i++) {
+            subredditNames.add(subredditList.get(i).getSubreddit());
+        }
+
+        subredditAdapter = new SubredditAdapter(this, new ArrayList<RedditPost>(subredditList));
 
         subreddits.setAdapter(subredditAdapter);
 
         client = new RedditClient();
-
-        retrieveSavedData();
 
         searchSubreddit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -86,13 +85,10 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject redditPost = post.getJSONObject("data");
                     //Parse the json array into array of model objects
                     RedditPost subredditPost = RedditPost.fromJson(redditPost);
-
-                    isBlocked = false;
-
+                    subredditDatabase.redditPostDao().insert(subredditPost);
 
                     if (!subredditNames.contains(subredditPost.getSubreddit())) {
                         subredditNames.add(subredditPost.getSubreddit().toString());
-                        saveListData();
                     }
 
                     subredditAdapter.add(subredditPost);
@@ -102,44 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        }, url);
-    }
-
-    public void saveListData() {
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(subredditNames);
-        editor.putString(SUBREDDIT_LIST, json);
-        editor.apply();
-    }
-
-    public void retrieveSavedData() {
-        sharedPreferences = getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(SUBREDDIT_LIST, null);
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
-        subredditNames = gson.fromJson(json, type);
-
-        if (subredditNames == null) {
-            subredditNames = new ArrayList<String>();
-        } else {
-            for (int i = 0; i < subredditNames.size(); i++) {
-                if (isBlocked == false) {
-                    isBlocked = true;
-                    fetchPost(subredditNames.get(i));
-
-                while (isBlocked == true) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                }
-
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.lang.Throwable throwable, org.json.JSONObject errorResponse) {
+                Toast.makeText(getApplicationContext(), "Subreddit does not exist.", Toast.LENGTH_LONG).show();
             }
-        }
+        }, url);
     }
 
 }

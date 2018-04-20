@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jtiet on 1/28/18.
@@ -19,6 +20,10 @@ import java.util.ArrayList;
 public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
 
     public RedditPostAdapter(Context context, ArrayList<RedditPost> posts) {
+        super(context, 0, posts);
+    }
+
+    public RedditPostAdapter(Context context, List<RedditPost> posts) {
         super(context, 0, posts);
     }
 
