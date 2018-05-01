@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jtiet on 3/23/18.
@@ -18,6 +19,8 @@ public class SubredditAdapter extends ArrayAdapter<RedditPost> {
     public SubredditAdapter(Context context, ArrayList<RedditPost> subreddit_list) {
         super(context, 0, subreddit_list);
     }
+
+    private List<RedditPost> mReddits;
 
     //Takes each element of the ArrayList and converts it into a View
     @Override

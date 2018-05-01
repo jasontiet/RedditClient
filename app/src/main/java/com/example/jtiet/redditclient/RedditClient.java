@@ -20,7 +20,6 @@ public class RedditClient {
         if (!subreddit.equals("")) {
             url += "/r/" + subreddit;
         }
-
         return url + ".json";
     }
 
@@ -29,7 +28,6 @@ public class RedditClient {
         if (url.equals("")) {
             return null;
         }
-
         return url + ".json";
     }
 
